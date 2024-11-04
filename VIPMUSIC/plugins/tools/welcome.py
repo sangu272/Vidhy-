@@ -45,7 +45,7 @@ def welcomepic(pic, user, chat, id, uname):
     draw.text((250, 65), f'NAME : {unidecode(user)}', fill="white", font=font)
     draw.text((340, 65), f'ID : {id}', fill="white", font=font)
     draw.text((430, 65), f"USERNAME : {uname}", fill="white",font=font)
-    pfp_position = (133, 767)  
+    pfp_position = (130, 135)  
     background.paste(pfp, pfp_position, pfp)  
     background.save(
         f"downloads/welcome#{id}.png"
