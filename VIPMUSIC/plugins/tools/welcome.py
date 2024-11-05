@@ -84,7 +84,7 @@ class temp:
 
 
 
-def circle(pfp, size=(900, 900), brightness_factor=10):
+def circle(pfp, size=(450, 450), brightness_factor=10):
     pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
     pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
     bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
@@ -102,9 +102,9 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     pfp = circle(pfp, brightness_factor=brightness_factor) 
     pfp = pfp.resize((825, 824))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('assets/font.ttf', size=110)
-    welcome_font = ImageFont.truetype('assets/font.ttf', size=60)
-    pfp_position = (135, 130)
+    font = ImageFont.truetype('assets/font.ttf', size=45)
+    welcome_font = ImageFont.truetype('assets/font.ttf', size=90)
+    pfp_position = (130, 135)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
@@ -160,7 +160,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                 user.photo.big_file_id, file_name=f"pp{user.id}.png"
             )
         except AttributeError:
-            pic = "VIPMUSIC/assets/upic.png"
+            pic = "assets/upic.png"
         if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
             try:
                 await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
