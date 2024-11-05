@@ -102,7 +102,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     pfp = circle(pfp, brightness_factor=brightness_factor) 
     pfp = pfp.resize((450, 450))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('assets/font.ttf', size=45)
+    font = ImageFont.truetype('assets/font.ttf', size=60)
     welcome_font = ImageFont.truetype('assets/font.ttf', size=90)
     pfp_position = (130, 135)
     background.paste(pfp, pfp_position, pfp)
