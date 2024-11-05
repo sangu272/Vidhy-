@@ -122,13 +122,13 @@ async def greet_group(_, member: ChatMemberUpdated):
 ● ɴᴀᴍᴇ ➥  {user.mention}
 ● ᴜsᴇʀɴᴀᴍᴇ ➥  @{user.username}
 ● ᴜsᴇʀ ɪᴅ ➥  {user.id}
-
 ❖ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥 ](https://t.me/ll_ITZ_NAWAB_HERE_ll)
 ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▰
 """,
 reply_markup=InlineKeyboardMarkup(
 [
-[InlineKeyboardButton(f"ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ", url=f"https://t.me/{app.username}?startgroup=True"),
+[InlineKeyboardButton(f"❍ 𝐎ᴡɴᴇʀ ❍", url=f"https://t.me/ll_ITZ_NAWAB_HERE_ll"),
+[InlineKeyboardButton(f"❍ sᴜᴩᴩᴏʀᴛ ❍", url=f"https://t.me/TG_BIO_STYLE"), 
 ]
 ]
 ))
