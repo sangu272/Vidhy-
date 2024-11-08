@@ -37,7 +37,7 @@ def welcomepic(pic, user, chat, id, uname):
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
     pfp = pfp.resize(
-        (250, 200)
+        (280, 280)
     ) 
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('assets/font.ttf', size=35)
