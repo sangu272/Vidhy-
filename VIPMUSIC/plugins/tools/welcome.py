@@ -40,7 +40,7 @@ def welcomepic(pic, user, chat, id, uname):
         (500, 500)
     ) 
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('assets/font.ttf', size=40)
+    font = ImageFont.truetype('assets/font.ttf', size=35)
     font2 = ImageFont.truetype('assets/font.ttf', size=60)
     
     saffron = (255, 153, 51)  
