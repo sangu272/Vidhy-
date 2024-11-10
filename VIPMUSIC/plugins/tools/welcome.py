@@ -87,10 +87,10 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     welcome_font = ImageFont.truetype('assets/font.ttf', size=60)
     #draw.text((650, 540), f'ID: {id}', fill=(255, 255, 255), font=font)
     #
-    draw.text((650, 150), f'NAME: {user}', fill=(255, 215, 0), font=font)
-    draw.text((650, 350), f'ID: {id}', fill=(255, 255, 255), font=font)
+    draw.text((550, 150), f'NAME: {user}', fill=(255, 215, 0), font=font)
+    draw.text((550, 350), f'ID: {id}', fill=(255, 255, 255), font=font)
     #draw.text((650, 150), f"{chatname}", fill=(225, 225, 225), font=welcome_font)
-    draw.text((650, 250), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
+    draw.text((550, 250), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
 
     #
     pfp_position = (48, 88)
