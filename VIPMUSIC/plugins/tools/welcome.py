@@ -89,9 +89,9 @@ async def auto_state(_, message):
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    A = await wlcm.find_one({"chat_id" : chat_id})
-    if not A:
-       return
+   # A = await wlcm.find_one({"chat_id" : chat_id})
+   # if not A:
+     #  return
     if (
         not member.new_chat_member
         or member.new_chat_member.status in {"banned", "left", "restricted"}
@@ -125,10 +125,10 @@ async def greet_group(_, member: ChatMemberUpdated):
  •●◉✿ ᴡᴇʟᴄᴏᴍᴇ ʙᴀʙʏ ✿◉●•
 ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▰
 
-**☉ 𝐍ᴀᴍᴇ ⧽** {user.mention}
-**☉ 𝐈ᴅ ⧽** `{user.id}`
-**☉ 𝐔_𝐍ᴀᴍᴇ ⧽** @{user.username}
-**☉ 𝐓ᴏᴛᴀʟ 𝐌ᴇᴍʙᴇʀs ⧽** {count}
+☉ 𝐍ᴀᴍᴇ ⧽ {user.mention}
+☉ 𝐈ᴅ ⧽ `{user.id}`
+☉ 𝐔_𝐍ᴀᴍᴇ ⧽ @{user.username}
+☉ 𝐓ᴏᴛᴀʟ 𝐌ᴇᴍʙᴇʀs ⧽ {count}
 ❖ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥 ](https://t.me/ll_ITZ_NAWAB_HERE_ll)
 ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▰
 """,
