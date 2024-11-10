@@ -1,60 +1,17 @@
-from VIPMUSIC import app
-from pyrogram.errors import RPCError
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
+import os
 from unidecode import unidecode
-from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
-from os import environ
-import random
-from pyrogram import Client, filters
-from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
-import asyncio, os, time, aiohttp
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
-from asyncio import sleep
-from pyrogram import filters, Client, enums
-from pyrogram.enums import ParseMode
-from logging import getLogger
-from VIPMUSIC.utils.vip_ban import admin_filter
 from PIL import ImageDraw, Image, ImageFont, ImageChops
 from pyrogram import *
 from pyrogram.types import *
 from logging import getLogger
-
-
-random_photo = [
-    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
-    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
-    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
-    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
-    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
-]
-# --------------------------------------------------------------------------------- #
-
-
-
-
+from VIPMUSIC import LOGGER
+from pyrogram.types import Message
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC import app
+from VIPMUSIC.utils.database import *
 
 LOGGER = getLogger(__name__)
 
-class WelDatabase:
-    def __init__(self):
-        self.data = {}
-
-    async def find_one(self, chat_id):
-        return chat_id in self.data
-
-    async def add_wlcm(self, chat_id):
-        if chat_id not in self.data:
-            self.data[chat_id] = {"state": "on"}  # Default state is "on"
-
-    async def rm_wlcm(self, chat_id):
-        if chat_id in self.data:
-            del self.data[chat_id]
-
-wlcm = WelDatabase()
 
 class temp:
     ME = None
@@ -63,7 +20,6 @@ class temp:
     MELCOW = {}
     U_NAME = None
     B_NAME = None
-
 
 def circle(pfp, size=(500, 500)):
     pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -81,16 +37,15 @@ def welcomepic(pic, user, chat, id, uname):
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
     pfp = pfp.resize(
-        (460, 400)
+        (500, 500)
     ) 
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('assets/font.ttf', size=35)
+    font = ImageFont.truetype('assets/font.ttf', size=30)
     font2 = ImageFont.truetype('assets/font.ttf', size=60)
     
- 
-    
-    draw.text((650, 250), f'NAME : {unidecode(user)}', fill="(255, 153, 51)", font=font)
-    draw.text((650, 350), f'ID : {id}', fill="(255 ,215 ,0 )", font=font)
+   
+    draw.text((650, 250), f'NAME : {unidecode(user)}', fill="(212, 175, 55)", font=font)
+    draw.text((650, 350), f'ID : {id}', fill="(255, 153, 51)", font=font)
     draw.text((650, 450), f"USERNAME : {uname}", fill="(19, 136, 8)",font=font)
     pfp_position = (100, 133)  
     background.paste(pfp, pfp_position, pfp)  
@@ -135,7 +90,7 @@ async def auto_state(_, message):
 async def greet_group(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     A = await wlcm.find_one({"chat_id" : chat_id})
-   if not A:
+    if not A:
        return
     if (
         not member.new_chat_member
@@ -170,11 +125,11 @@ async def greet_group(_, member: ChatMemberUpdated):
  •●◉✿ ᴡᴇʟᴄᴏᴍᴇ ʙᴀʙʏ ✿◉●•
 ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▰
 
-● ɴᴀᴍᴇ ➥  {user.mention}
-● ᴜsᴇʀɴᴀᴍᴇ ➥  @{user.username}
-● ᴜsᴇʀ ɪᴅ ➥  {user.id}
+**☉ 𝐍ᴀᴍᴇ ⧽** {user.mention}
+**☉ 𝐈ᴅ ⧽** `{user.id}`
+**☉ 𝐔_𝐍ᴀᴍᴇ ⧽** @{user.username}
 **☉ 𝐓ᴏᴛᴀʟ 𝐌ᴇᴍʙᴇʀs ⧽** {count}
-❖ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥 ](https://t.me/ll_MAHAKAL_MUSIC_BOT)
+❖ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥 ](https://t.me/ll_ITZ_NAWAB_HERE_ll)
 ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▰
 """,
 reply_markup=InlineKeyboardMarkup([
