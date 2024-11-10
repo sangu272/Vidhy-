@@ -81,16 +81,16 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((575, 575))
+    pfp = pfp.resize((460, 400))
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('assets/font.ttf', size=70)
     welcome_font = ImageFont.truetype('assets/font.ttf', size=61)
-    #draw.text((630, 540), f'ID: {id}', fill=(255, 255, 255), font=font)
+    draw.text((630, 540), f'ID: {id}', fill=(255, 255, 255), font=font)
     #
- #   draw.text((630, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
+    draw.text((630, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
     draw.text((630, 450), f'ID: {id}', fill=(255, 255, 255), font=font)
-#    draw.text((630, 150), f"{chatname}", fill=(225, 225, 225), font=welcome_font)
-  #  draw.text((630, 230), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
+    draw.text((630, 150), f"{chatname}", fill=(225, 225, 225), font=welcome_font)
+    draw.text((630, 230), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
 
     #
     pfp_position = (48, 88)
@@ -175,7 +175,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 **☉ 𝐈ᴅ ⧽** `{user.id}`
 **☉ 𝐔_𝐍ᴀᴍᴇ ⧽** @{user.username}
 **☉ 𝐓ᴏᴛᴀʟ 𝐌ᴇᴍʙᴇʀs ⧽** {count}
-**☉ ❖ 𝐏ᴏᴡᴇʀᴇᴅ 𝐁ʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥](https://t.me/ll_ITZ_NAWAB_HERE_ll
+**☉ ❖ 𝐏ᴏᴡᴇʀᴇᴅ 𝐁ʏ ➥ ๛[❤️‍🔥 • 𝛚𝛐𝛚 • ❤️‍🔥](https://t.me/ll_ITZ_NAWAB_HERE_ll)
 **▬▭▬▭▬▭▬▭▬▭▬▭**
 
 **⎉────▢✭ 侖 ✭▢────⎉**
