@@ -2,6 +2,7 @@ from VIPMUSIC import app
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
+from unidecode import unidecode
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
