@@ -11,10 +11,10 @@ from config import (
     TELEGRAM_VIDEO_URL,
     adminlist,
 )
-from BADMUSIC import Platform, app
-from BADMUSIC.core.call import BAD as BAD
-from BADMUSIC.misc import SUDOERS, db
-from BADMUSIC.utils.database import (
+from VIPMUSIC import Platform, app
+from VIPMUSIC.core.call import VIP as VIP
+from VIPMUSIC.misc import SUDOERS, db
+from VIPMUSIC.utils.database import (
     is_active_chat,
     is_music_playing,
     is_muted,
@@ -37,9 +37,9 @@ from BADMUSIC.utils.inline import (
     stream_markup,
     stream_markup2,
 )
-from BADMUSIC.utils.inline.play import stream_markup
-from BADMUSIC.utils.stream.autoclear import auto_clean
-from BADMUSIC.utils.thumbnails import get_thumb
+from VIPMUSIC.utils.inline.play import stream_markup
+from VIPMUSIC.utils.stream.autoclear import auto_clean
+from VIPMUSIC.utils.thumbnails import get_thumb
 
 wrong = {}
 downvote = {}
