@@ -15,7 +15,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
-from VIPMUSIC import Carbon, YouTube, app
+from VIPMUSIC import Platform, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import (
@@ -24,9 +24,9 @@ from VIPMUSIC.utils.database import (
     is_video_allowed,
 )
 from VIPMUSIC.utils.exceptions import AssistantErr
-from VIPMUSIC.utils.inline.play import queue_markup, stream_markup, telegram_markup
+from VIPMUSIC.utils.inline.play import stream_markup, telegram_markup
 from VIPMUSIC.utils.inline.playlist import close_markup
-from VIPMUSIC.utils.pastebin import VIPbin
+from VIPMUSIC.utils.pastebin import BADbin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
 from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
 
@@ -50,7 +50,7 @@ async def stream(
         if not await is_video_allowed(chat_id):
             raise AssistantErr(_["play_7"])
     if forceplay:
-        await VIP.force_stop_stream(chat_id)
+        await BAD.force_stop_stream(chat_id)
     if streamtype == "playlist":
         msg = f"{_['playlist_16']}\n\n"
         count = 0
@@ -64,8 +64,8 @@ async def stream(
                     duration_sec,
                     thumbnail,
                     vidid,
-                ) = await YouTube.details(search, False if spotify else True)
-            except:
+                ) = await Platform.youtube.details(search, False if spotify else True)
+            except Exception:
                 continue
             if str(duration_min) == "None":
                 continue
@@ -92,12 +92,12 @@ async def stream(
                     db[chat_id] = []
                 status = True if video else None
                 try:
-                    file_path, direct = await YouTube.download(
+                    file_path, direct = await Platform.youtube.download(
                         vidid, mystic, video=status, videoid=True
                     )
-                except:
+                except Exception:
                     raise AssistantErr(_["play_16"])
-                await VIP.join_call(
+                await BAD.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
                 await put_queue(
@@ -130,13 +130,13 @@ async def stream(
         if count == 0:
             return
         else:
-            link = await VIPbin(msg)
+            link = await BADbin(msg)
             lines = msg.count("\n")
             if lines >= 17:
                 car = os.linesep.join(msg.split(os.linesep)[:17])
             else:
                 car = msg
-            carbon = await Carbon.generate(car, randint(100, 10000000))
+            carbon = await Platform.carbon.generate(car, randint(100, 10000000))
             upl = close_markup(_)
             return await app.send_photo(
                 original_chat_id,
@@ -144,6 +144,7 @@ async def stream(
                 caption=_["playlist_18"].format(link, position),
                 reply_markup=upl,
             )
+
     elif streamtype == "youtube":
         link = result["link"]
         vidid = result["vidid"]
@@ -152,10 +153,10 @@ async def stream(
         thumbnail = result["thumb"]
         status = True if video else None
         try:
-            file_path, direct = await YouTube.download(
+            file_path, direct = await Platform.youtube.download(
                 vidid, mystic, videoid=True, video=status
             )
-        except:
+        except Exception:
             raise AssistantErr(_["play_16"])
         if await is_active_chat(chat_id):
             await put_queue(
@@ -171,14 +172,13 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             qimg = await gen_qthumb(vidid)
-            button = queue_markup(_, vidid, chat_id)
             run = await app.send_photo(
                 original_chat_id,
                 photo=qimg,
                 caption=_["queue_4"].format(
                     position, title[:27], duration_min, user_name
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=close_markup(_),
             )
         else:
             if not forceplay:
@@ -200,22 +200,159 @@ async def stream(
             )
             img = await gen_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
-            try:
+            run = await app.send_photo(
+                original_chat_id,
+                photo=img,
+                caption=_["stream_1"].format(
+                    title[:27],
+                    f"https://t.me/{app.username}?start=info_{vidid}",
+                    duration_min,
+                    user_name,
+                ),
+                reply_markup=InlineKeyboardMarkup(button),
+            )
+            db[chat_id][0]["mystic"] = run
+            db[chat_id][0]["markup"] = "stream"
+
+    elif "saavn" in streamtype:
+        if streamtype == "saavn_track":
+            if result["duration_sec"] == 0:
+                return
+            file_path = result["filepath"]
+            title = result["title"]
+            duration_min = result["duration_min"]
+            link = result["url"]
+            thumb = result["thumb"]
+            if await is_active_chat(chat_id):
+                await put_queue(
+                    chat_id,
+                    original_chat_id,
+                    file_path,
+                    title,
+                    duration_min,
+                    user_name,
+                    streamtype,
+                    user_id,
+                    "audio",
+                    url=link,
+                )
+                position = len(db.get(chat_id)) - 1
+                await app.send_photo(
+                    original_chat_id,
+                    photo=thumb or "https://envs.sh/Ii_.jpg",
+                    caption=_["queue_4"].format(
+                        position, title[:30], duration_min, user_name
+                    ),
+                    reply_markup=close_markup(_),
+                )
+            else:
+                if not forceplay:
+                    db[chat_id] = []
+                await BAD.join_call(chat_id, original_chat_id, file_path, video=None)
+                await put_queue(
+                    chat_id,
+                    original_chat_id,
+                    file_path,
+                    title,
+                    duration_min,
+                    user_name,
+                    streamtype,
+                    user_id,
+                    "audio",
+                    forceplay=forceplay,
+                    url=link,
+                )
+                button = telegram_markup(_, chat_id)
                 run = await app.send_photo(
                     original_chat_id,
-                    photo=img,
+                    photo=thumb,
                     caption=_["stream_1"].format(
-                        title[:27],
-                        f"https://t.me/{app.username}?start=info_{vidid}",
-                        duration_min,
-                        user_name,
+                        title, config.SUPPORT_GROUP, duration_min, user_name
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
-                db[chat_id][0]["markup"] = "stream"
-            except Exception as ex:
-                print(ex)
+                db[chat_id][0]["markup"] = "tg"
+
+        elif streamtype == "saavn_playlist":
+            msg = f"{_['playlist_16']}\n\n"
+            count = 0
+            for search in result:
+                if search["duration_sec"] == 0:
+                    continue
+                title = search["title"]
+                duration_min = search["duration_min"]
+                duration_sec = search["duration_sec"]
+                link = search["url"]
+                thumb = search["thumb"]
+                file_path, n = await Platform.saavn.download(link)
+                if await is_active_chat(chat_id):
+                    await put_queue(
+                        chat_id,
+                        original_chat_id,
+                        file_path,
+                        title,
+                        duration_min,
+                        user_name,
+                        streamtype,
+                        user_id,
+                        "audio",
+                        url=link,
+                    )
+                    position = len(db.get(chat_id)) - 1
+                    count += 1
+                    msg += f"{count}- {title[:70]}\n"
+                    msg += f"{_['playlist_17']} {position}\n\n"
+
+                else:
+
+                    if not forceplay:
+                        db[chat_id] = []
+                    await VIP.join_call(
+                        chat_id, original_chat_id, file_path, video=None
+                    )
+                    await put_queue(
+                        chat_id,
+                        original_chat_id,
+                        file_path,
+                        title,
+                        duration_min,
+                        user_name,
+                        streamtype,
+                        user_id,
+                        "audio",
+                        forceplay=forceplay,
+                        url=link,
+                    )
+                    button = telegram_markup(_, chat_id)
+                    run = await app.send_photo(
+                        original_chat_id,
+                        photo=thumb,
+                        caption=_["stream_1"].format(
+                            title, link, duration_min, user_name
+                        ),
+                        reply_markup=InlineKeyboardMarkup(button),
+                    )
+                    db[chat_id][0]["mystic"] = run
+                    db[chat_id][0]["markup"] = "tg"
+            if count == 0:
+                return
+            else:
+                link = await BADbin(msg)
+                lines = msg.count("\n")
+                if lines >= 17:
+                    car = os.linesep.join(msg.split(os.linesep)[:17])
+                else:
+                    car = msg
+                carbon = await Platform.carbon.generate(car, randint(100, 10000000))
+                upl = close_markup(_)
+                return await app.send_photo(
+                    original_chat_id,
+                    photo=carbon,
+                    caption=_["playlist_18"].format(link, position),
+                    reply_markup=upl,
+                )
+
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -341,7 +478,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            n, file_path = await YouTube.video(link)
+            n, file_path = await Platform.youtube.video(link)
             if n == 0:
                 raise AssistantErr(_["str_3"])
             await VIP.join_call(
@@ -400,7 +537,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await VIP.join_call(
+            await BAD.join_call(
                 chat_id,
                 original_chat_id,
                 link,
@@ -427,3 +564,4 @@ async def stream(
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
             await mystic.delete()
+               
