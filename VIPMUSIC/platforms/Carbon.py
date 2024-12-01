@@ -5,7 +5,7 @@ import aiohttp
 from aiohttp import client_exceptions
 
 
-from BADMUSIC.utils.exceptions import UnableToFetchCarbon
+from VIPMUSIC.utils.exceptions import UnableToFetchCarbon
 
 
 themes = [
