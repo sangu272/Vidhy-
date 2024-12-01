@@ -28,9 +28,9 @@ from pytgcalls.types.stream import StreamAudioEnded
 
 import config
 from strings import get_string
-from BADMUSIC import LOGGER, Platform, app
-from BADMUSIC.misc import db
-from BADMUSIC.utils.database import (
+from VIPMUSIC import LOGGER, Platform, app
+from VIPMUSIC.misc import db
+from VIPMUSIC.utils.database import (
     add_active_chat,
     add_active_video_chat,
     get_assistant,
@@ -45,11 +45,11 @@ from BADMUSIC.utils.database import (
     remove_active_video_chat,
     set_loop,
 )
-from BADMUSIC.utils.exceptions import AssistantErr
-from BADMUSIC.utils.formatters import check_duration, seconds_to_min, speed_converter
-from BADMUSIC.utils.inline.play import stream_markup, telegram_markup
-from BADMUSIC.utils.stream.autoclear import auto_clean
-from BADMUSIC.utils.thumbnails import gen_thumb
+from VIPMUSIC.utils.exceptions import AssistantErr
+from VIPMUSIC.utils.formatters import check_duration, seconds_to_min, speed_converter
+from VIPMUSIC.utils.inline.play import stream_markup, telegram_markup
+from VIPMUSIC.utils.stream.autoclear import auto_clean
+from VIPMUSIC.utils.thumbnails import gen_thumb
 
 active = []
 autoend = {}
