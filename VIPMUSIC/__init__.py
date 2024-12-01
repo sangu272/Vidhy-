@@ -44,13 +44,13 @@ app = VIPBot()
 # Assistant Client
 userbot = Userbot()
 
-from .platforms import *
+from .platforms import platforms
 
-YouTube = YouTubeAPI()
-Carbon = CarbonAPI()
-Spotify = SpotifyAPI()
-Apple = AppleAPI()
-Resso = RessoAPI()
-SoundCloud = SoundAPI()
-Telegram = TeleAPI()
+YouTube = YouTube()
+Carbon = Carbon()
+Spotify = Spotify()
+Apple = AppleI()
+Resso = RessoI()
+SoundCloud = Sound()
+Telegram = Tele()
 HELPABLE = {}
