@@ -7,7 +7,14 @@
 #
 # All rights reserved.
 
-from VIPMUSIC.core.bot import VIPBot
+
+import json
+import os
+import config
+import pytz
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+from VIPMUSIC.core.bot import BADBOT
 from VIPMUSIC.core.dir import dirr
 from VIPMUSIC.core.git import git
 from VIPMUSIC.core.userbot import Userbot
@@ -15,35 +22,25 @@ from VIPMUSIC.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
 
-# Bot Client
+#time zone
+TIME_ZONE = pytz.timezone(config.TIME_ZONE)
+scheduler = AsyncIOScheduler(timezone=TIME_ZONE)
 
-# Directories
 dirr()
 
-# Check Git Updates
 git()
 
-# Initialize Memory DB
 dbb()
 
-# Heroku APP
 heroku()
 
-# Load Sudo Users from DB
 sudo()
 
-app = VIPBot()
+app = BADBOT()
 
-# Assistant Client
 userbot = Userbot()
 
-from .platforms import *
+from .platforms import PlaTForms
 
-YouTube = YouTubeAPI()
-Carbon = CarbonAPI()
-Spotify = SpotifyAPI()
-Apple = AppleAPI()
-Resso = RessoAPI()
-SoundCloud = SoundAPI()
-Telegram = TeleAPI()
+Platform = PlaTForms()
 HELPABLE = {}
