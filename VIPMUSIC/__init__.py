@@ -14,7 +14,7 @@ import config
 import pytz
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from VIPMUSIC.core.bot import BADBOT
+from VIPMUSIC.core.bot import VIPBOT
 from VIPMUSIC.core.dir import dirr
 from VIPMUSIC.core.git import git
 from VIPMUSIC.core.userbot import Userbot
@@ -36,7 +36,7 @@ heroku()
 
 sudo()
 
-app = BADBOT()
+app = VIPBOT()
 
 userbot = Userbot()
 
