@@ -97,7 +97,7 @@ async def stream(
                     )
                 except Exception:
                     raise AssistantErr(_["play_16"])
-                await BAD.join_call(
+                await VIP.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
                 await put_queue(
