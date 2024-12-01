@@ -19,7 +19,7 @@ from .Telegram import Telegram
 from .Youtube import YouTube
 
 
-class PlaTForms:
+class platforms:
     def __init__(self):
         self.apple = Apple()
         self.carbon = Carbon()
