@@ -5,7 +5,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from youtubesearchpython.__future__ import VideosSearch
 
 import config
-from BADMUSIC.utils.decorators import asyncify
+from VIPMUSIC.utils.decorators import asyncify
 
 
 class Spotify:
