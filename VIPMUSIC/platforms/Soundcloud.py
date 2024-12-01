@@ -1,21 +1,12 @@
-#
-# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
-#
-# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
-# and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
-#
-# All rights reserved.
-#
-
 from os import path
 
 from yt_dlp import YoutubeDL
 
-from VIPMUSIC.utils.formatters import seconds_to_min
+from BADMUSIC.utils.formatters import seconds_to_min
+from BADMUSIC.utils.decorators import asyncify
 
 
-class SoundAPI:
+class SoundCloud:
     def __init__(self):
         self.opts = {
             "outtmpl": "downloads/%(id)s.%(ext)s",
@@ -25,17 +16,15 @@ class SoundAPI:
             "continuedl": True,
         }
 
-    async def valid(self, link: str):
-        if "soundcloud" in link:
-            return True
-        else:
-            return False
+    async def valid(self, link: str) -> bool:
+        return "soundcloud" in link
 
-    async def download(self, url):
+    @asyncify
+    def download(self, url: str) -> dict | bool:
         d = YoutubeDL(self.opts)
         try:
             info = d.extract_info(url)
-        except:
+        except Exception:
             return False
         xyz = path.join("downloads", f"{info['id']}.{info['ext']}")
         duration_min = seconds_to_min(info["duration"])
@@ -47,3 +36,4 @@ class SoundAPI:
             "filepath": xyz,
         }
         return track_details, xyz
+      
