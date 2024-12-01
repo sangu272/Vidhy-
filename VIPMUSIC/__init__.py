@@ -36,7 +36,7 @@ app = VIPBot()
 
 userbot = Userbot()
 
-from .platforms import platforms
+from .platforms import *
 
 platform = platforms()
 HELPABLE = {}
